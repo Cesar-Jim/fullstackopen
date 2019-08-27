@@ -1,0 +1,11 @@
+title Creating a Note in the SPA Version
+
+Browser->Server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over Browser: 
+Only one request to the server is made.
+The request contains the new note 
+(JSON data)
+end note
+
+Server->Browser: Status 201 created (application/json; charset=utf-8)
