@@ -1,0 +1,27 @@
+title Visiting the SPA version (similar to the original note app)
+
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
+
+note over Server: 
+server instructs the browser 
+to render the webpage
+end note
+
+Server->Browser: Status 200 content type: text/html
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+Server->Browser: main.css
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
+Server->Browser: spa.js
+
+note over Browser: 
+browser fetches the notes 
+from the server...
+end note
+
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+Server-->Browser: [{ content: "...", date: "..." }, ...]
+
+note over Browser:
+.... and adds HTML elements to render 
+the notes (using the DOM-API)
+end note

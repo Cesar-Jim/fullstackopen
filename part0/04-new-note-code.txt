@@ -1,0 +1,26 @@
+title New Note Creation Process
+
+Browser->Server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+
+note over Server: 
+server asks for a new HTTP GET
+end note
+
+Server->Browser: HTTP status code 302 (redirect)
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+Server->Browser: main.css
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+Server->Browser: main.js
+
+note over Browser: 
+browser starts executing js code 
+that requests JSON data from server
+end note
+
+Browser->Server: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+Server-->Browser: [{ content: "prueba", date: "2019-08-27" }, ...]
+
+note over Browser:
+browser executes the event handler
+that renders notes to display
+end note
