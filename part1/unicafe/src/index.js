@@ -4,9 +4,10 @@ import "./index.css";
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
-const Statistic = ({ text, value }) => (
+const Statistic = ({ text, value, symbol }) => (
   <p>
-    {text}: {value}
+    {text} {value}
+    {symbol}
   </p>
 );
 
@@ -27,12 +28,64 @@ const Statistics = props => {
   return (
     <div>
       <h2>statistics</h2>
-      <Statistic text="good" value={good} />
-      <Statistic text="neutral" value={neutral} />
-      <Statistic text="bad" value={bad} />
-      <Statistic text="all" value={all} />
-      <Statistic text="average" value={average} />
-      <Statistic text="positive" value={positive} />
+      <table>
+        <thead>
+          <tr>
+            <th>Statistic</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <Statistic text="good" />
+            </td>
+            <td>
+              <Statistic value={good} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Statistic text="neutral" />
+            </td>
+            <td>
+              <Statistic value={neutral} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Statistic text="bad" />
+            </td>
+            <td>
+              <Statistic value={bad} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Statistic text="all" />
+            </td>
+            <td>
+              <Statistic value={all} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Statistic text="average" />
+            </td>
+            <td>
+              <Statistic value={average.toFixed(1)} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Statistic text="positive" />
+            </td>
+            <td>
+              <Statistic value={positive.toFixed(1)} symbol="%" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
