@@ -1,20 +1,40 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
+const NextAnecdoteButton = ({ onClick, text }) => (
+  <button onClick={onClick}>{text}</button>
+);
+
+const VotingButton = ({ onClick, text }) => (
+  <button onClick={onClick}>{text}</button>
+);
 
 const App = props => {
   const [selected, setSelected] = useState(0);
   const { anecdotes } = props;
+  const points = new Array(anecdotes.length + 1)
+    .join("0")
+    .split("")
+    .map(parseFloat);
+  const [votes, setvotes] = useState([...points]);
 
-  const handleClick = () => {
+  const handleNextAnecdote = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length));
+  };
+
+  const handleVote = () => {
+    const copyOfVotes = [...votes];
+
+    copyOfVotes[selected] += 1;
+    setvotes(copyOfVotes);
   };
 
   return (
     <div>
-      <div>{anecdotes[selected]}</div>
-      <Button onClick={handleClick} text="next anecdote" />
+      <h2>{anecdotes[selected]}</h2>
+      <VotingButton onClick={handleVote} text="vote" />
+      <NextAnecdoteButton onClick={handleNextAnecdote} text="next anecdote" />
+      <h4>This anecdote has {votes[selected]} votes. </h4>
     </div>
   );
 };
