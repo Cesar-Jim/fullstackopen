@@ -1,40 +1,50 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 
-const Hello = (props) => {
+const History = props => {
+  if (props.allClicks.length === 0) {
+    return (
+      <div>
+        <p>The app is used by pressing the buttons</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <p>
-        Hello {props.name}, you are {props.age} years old.
-      </p>
+      <p>button press history: {props.allClicks.join(" ")}</p>
     </div>
-  )
-}
+  );
+};
 
-// const App = () => {
-//   const name = 'Peter';
-//   const age = 10;
+const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
-//   return(
-//     <div>
-//       <h1>Greetings</h1>
-//       <Hello name="George" age={26 + 10}/>
-//       <Hello name={name}age={age}/>
-//     </div>
-//   )
-// }
+const App = props => {
+  const [left, setLeft] = useState(0);
+  const [right, setRight] = useState(0);
+  const [allClicks, setAll] = useState([]);
 
-const App = () => {
-  const name = 'Peter';
-  const age = 50;
+  const handleLeftClick = () => {
+    setAll(allClicks.concat("L"));
+    setLeft(left + 1);
+  };
+
+  const handleRightClick = () => {
+    setAll(allClicks.concat("R"));
+    setRight(right + 1);
+  };
 
   return (
-    <>
-      <h1>Greetings!</h1>
-      <Hello name = 'Maya' age ={26 + 10} />
-      <Hello name = {name} age = {age} />
-    </>
-  )
-}
+    <div>
+      <div>
+        {left}
+        <Button onClick={handleLeftClick} text="left" />
+        <Button onClick={handleRightClick} text="right" />
+        {right}
+        <History allClicks={allClicks} />
+      </div>
+    </div>
+  );
+};
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById("root"));
