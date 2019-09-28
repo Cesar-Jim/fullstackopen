@@ -18,6 +18,20 @@ const Course = ({ course }) => {
   );
 };
 
+const Total = ({ course }) => {
+  return (
+    <div>
+      <h4>
+        Total of{" "}
+        {course.parts.reduce((acc, currValue) => {
+          return acc + currValue.exercises;
+        }, 0)}{" "}
+        exercises
+      </h4>
+    </div>
+  );
+};
+
 const App = () => {
   const course = {
     name: "Half Stack application development",
@@ -48,6 +62,7 @@ const App = () => {
   return (
     <div>
       <Course course={course} />
+      <Total course={course} />
     </div>
   );
 };
