@@ -11,13 +11,13 @@ const App = () => {
   const [clicked, setClicked] = useState(false);
   const [country, setCountry] = useState([]);
 
-  const hook = () => {
+  const hookCountries = () => {
     axios.get("https://restcountries.eu/rest/v2/all").then(response => {
       setCountries(response.data);
     });
   };
 
-  useEffect(hook, []);
+  useEffect(hookCountries, []);
 
   const handleSearchChange = event => {
     setNewSearch(event.target.value);

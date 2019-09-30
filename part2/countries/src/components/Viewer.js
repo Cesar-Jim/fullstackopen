@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Viewer = props => {
   const { countries, newSearch, handleClick } = props;
+
+  // const hookWeather = () => {
+  //   axios
+  //     .get(
+  //       `http://api.weatherstack.com/current?access_key=4d272c1b1a78a67aee5b13a0425a2640&query=${country.capital}`
+  //     )
+  //     .then(response => {
+  //       setWeather(response.data);
+  //     });
+  // };
+
+  // useEffect(hookWeather, []);
 
   const filteredCountries = countries.filter(country => {
     return country.name.toUpperCase().indexOf(newSearch.toUpperCase()) !== -1;
@@ -35,6 +48,7 @@ const Viewer = props => {
           </ul>
           <br />
           <img src={country.flag} alt={country.name} height="100" width="100" />
+          <h2>Weather in {country.capital}</h2>
         </div>
       );
     });
