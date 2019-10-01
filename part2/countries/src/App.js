@@ -10,6 +10,9 @@ const App = () => {
   const [newSearch, setNewSearch] = useState("");
   const [clicked, setClicked] = useState(false);
   const [country, setCountry] = useState([]);
+  const [temp, setTemp] = useState(0);
+  const [sky, setSky] = useState("");
+  const [wind, setWind] = useState(0);
 
   const hookCountries = () => {
     axios.get("https://restcountries.eu/rest/v2/all").then(response => {
@@ -29,6 +32,30 @@ const App = () => {
     setCountry(country);
   };
 
+  const handleSetTemp = city => {
+    axios
+      .get(
+        `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=32bea3d9cb1625c5048bd6cee495c7d9`
+      )
+      .then(response => {
+        const tempCurrent = (response.data.main.temp - 273.15).toFixed(1);
+        const skyCurrent = response.data.weather[0].description;
+        const windCurrent = response.data.wind.speed;
+        setTemp(tempCurrent);
+        setSky(skyCurrent);
+        setWind(windCurrent);
+      });
+
+    return (
+      <div>
+        <h3>Weather in {city}</h3>
+        <p>Temp: {temp}</p>
+        <p>Sky: {sky}</p>
+        <p>Wind: {wind} kph</p>
+      </div>
+    );
+  };
+
   return (
     <div>
       <h1>Country Finder App</h1>
@@ -37,6 +64,7 @@ const App = () => {
         countries={countries}
         newSearch={newSearch}
         handleClick={handleClick}
+        handleSetTemp={handleSetTemp}
       />
       {clicked ? <Country country={country} clicked={clicked} /> : <div></div>}
     </div>

@@ -15,7 +15,7 @@ const Country = props => {
         })}
       </ul>
       <br />
-      <img src={country.flag} alt={country.name} height="100" width="100" />
+      <img src={country.flag} alt={country.name} height="150" width="500" />
     </div>
   );
 };
