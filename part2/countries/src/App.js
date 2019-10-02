@@ -49,7 +49,7 @@ const App = () => {
     return (
       <div>
         <h3>Weather in {city}</h3>
-        <p>Temp: {temp}</p>
+        <p>Current Temp: {temp} °C</p>
         <p>Sky: {sky}</p>
         <p>Wind: {wind} kph</p>
       </div>
