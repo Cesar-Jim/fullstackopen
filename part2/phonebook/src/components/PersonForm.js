@@ -1,14 +1,14 @@
 import React from "react";
 import NameInput from "./NameInput";
-import PhoneInput from "./PhoneInput";
+import NumberInput from "./NumberInput";
 
 const PersonForm = props => {
   const {
     onSubmit,
     newName,
     handleNameChange,
-    newPhone,
-    handlePhoneChange
+    newNumber,
+    handleNumberChange
   } = props;
 
   return (
@@ -16,7 +16,7 @@ const PersonForm = props => {
       <h3>Add a new person</h3>
       <form onSubmit={onSubmit}>
         <NameInput value={newName} onChange={handleNameChange} />
-        <PhoneInput value={newPhone} onChange={handlePhoneChange} />
+        <NumberInput value={newNumber} onChange={handleNumberChange} />
         <div>
           <button type="submit">add</button>
         </div>

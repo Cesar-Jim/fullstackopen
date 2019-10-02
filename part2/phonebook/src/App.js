@@ -4,28 +4,24 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 
-import axios from "axios";
+import personService from "./services/persons";
 
 const App = () => {
   const [newName, setNewName] = useState("");
-  const [newPhone, setNewPhone] = useState("");
+  const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
   const [persons, setPersons] = useState([]);
 
-  const hook = () => {
-    axios.get("http://localhost:3001/persons").then(response => {
-      setPersons(response.data);
-    });
-  };
-
-  useEffect(hook, []);
+  useEffect(() => {
+    personService.getAll().then(initialPersons => setPersons(initialPersons));
+  }, []);
 
   const addPerson = event => {
     event.preventDefault();
 
     const personObject = {
       name: newName,
-      number: newPhone
+      number: newNumber
     };
 
     const nameExists = persons.find(personObject => {
@@ -35,14 +31,11 @@ const App = () => {
     if (nameExists) {
       alert(`${newName} is already added to phoneBook.`);
     } else {
-      axios
-        .post(`http://localhost:3001/persons`, personObject)
-        .then(response => {
-          console.log(response);
-        });
-      setPersons(persons.concat(personObject));
+      personService.create(personObject).then(data => {
+        setPersons(persons.concat(data));
+      });
       setNewName("");
-      setNewPhone("");
+      setNewNumber("");
     }
   };
 
@@ -50,8 +43,8 @@ const App = () => {
     setNewName(event.target.value);
   };
 
-  const handlePhoneChange = event => {
-    setNewPhone(event.target.value);
+  const handleNumberChange = event => {
+    setNewNumber(event.target.value);
   };
 
   const handleSearchChange = event => {
@@ -81,8 +74,8 @@ const App = () => {
         onSubmit={addPerson}
         newName={newName}
         handleNameChange={handleNameChange}
-        newPhone={newPhone}
-        handlePhoneChange={handlePhoneChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
       />
       <br />
       <h2>Numbers</h2>
