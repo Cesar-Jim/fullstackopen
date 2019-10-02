@@ -22,7 +22,19 @@
       "id": 4,
       "content": "test",
       "date": "2019-05-30T19:20:14.298Z",
-      "important": false
+      "important": true
+    },
+    {
+      "content": "test2",
+      "date": "2019-10-02T13:42:54.141Z",
+      "important": false,
+      "id": 5
+    },
+    {
+      "content": "test3",
+      "date": "2019-10-02T15:14:57.710Z",
+      "important": false,
+      "id": 7
     }
   ]
 }
