@@ -39,6 +39,16 @@ const App = () => {
     }
   };
 
+  const deletePerson = person => {
+    if (window.confirm(`Are you sure you want to delete "${person.name}"?`)) {
+      const personToDelete = persons.find(p => p.id === person.id);
+
+      personService.deletePerson(personToDelete).then(() => {
+        setPersons(persons.filter(p => p !== person));
+      });
+    }
+  };
+
   const handleNameChange = event => {
     setNewName(event.target.value);
   };
@@ -59,7 +69,8 @@ const App = () => {
     return filteredPersons.map(person => {
       return (
         <li key={person.name}>
-          {person.name} / {person.number}
+          {person.name} / {person.number}{" "}
+          <button onClick={() => deletePerson(person)}>delete</button>
         </li>
       );
     });
