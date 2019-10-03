@@ -5,12 +5,14 @@ import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 
 import personService from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
   const [persons, setPersons] = useState([]);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then(initialPersons => setPersons(initialPersons));
@@ -36,7 +38,7 @@ const App = () => {
       ) {
         const personToUpdate = persons.find(p => p.name === personObject.name);
 
-        personService.updateNumber(personToUpdate, personObject).then(data => {
+        personService.updateNumber(personToUpdate, personObject).then(() => {
           setPersons(
             persons.splice(persons.indexOf(personToUpdate), 1, personObject)
           );
@@ -49,6 +51,10 @@ const App = () => {
     } else {
       personService.create(personObject).then(data => {
         setPersons(persons.concat(data));
+        setSuccessMessage(`Added ${personObject.name}!`);
+        setTimeout(() => {
+          setSuccessMessage(null);
+        }, 5000);
       });
       setNewName("");
       setNewNumber("");
@@ -95,6 +101,7 @@ const App = () => {
   return (
     <div>
       <h1>PhoneBook</h1>
+      <Notification message={successMessage} />
       <Filter value={newSearch} onChange={handleSearchChange} />
       <br />
       <PersonForm
