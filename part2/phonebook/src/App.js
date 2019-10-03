@@ -12,10 +12,21 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
   const [persons, setPersons] = useState([]);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [messageType, setMessageType] = useState(null);
 
   useEffect(() => {
-    personService.getAll().then(initialPersons => setPersons(initialPersons));
+    personService
+      .getAll()
+      .then(initialPersons => setPersons(initialPersons))
+      .catch(error => {
+        setMessageType("error");
+        setMessage(`Error (couldn't load data): ${error}`);
+        setTimeout(() => {
+          setMessageType(null);
+          setMessage(null);
+        }, 5000);
+      });
   }, []);
 
   const addPerson = event => {
@@ -38,24 +49,46 @@ const App = () => {
       ) {
         const personToUpdate = persons.find(p => p.name === personObject.name);
 
-        personService.updateNumber(personToUpdate, personObject).then(() => {
-          setPersons(
-            persons.splice(persons.indexOf(personToUpdate), 1, personObject)
-          );
-          setPersons(persons);
-        });
+        personService
+          .updateNumber(personToUpdate, personObject)
+          .then(() => {
+            setPersons(
+              persons.splice(persons.indexOf(personToUpdate), 1, personObject)
+            );
+            setPersons(persons);
+          })
+          .catch(error => {
+            setMessageType("error");
+            setMessage(`Error (couldn't add number): ${error}`);
+            setTimeout(() => {
+              setMessageType(null);
+              setMessage(null);
+            }, 5000);
+          });
 
         setNewName("");
         setNewNumber("");
       }
     } else {
-      personService.create(personObject).then(data => {
-        setPersons(persons.concat(data));
-        setSuccessMessage(`Added ${personObject.name}!`);
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 5000);
-      });
+      personService
+        .create(personObject)
+        .then(data => {
+          setPersons(persons.concat(data));
+          setMessageType("success");
+          setMessage(`Added ${personObject.name}!`);
+          setTimeout(() => {
+            setMessage(null);
+            setMessageType(null);
+          }, 5000);
+        })
+        .catch(error => {
+          setMessageType("error");
+          setMessage(`Error (couldn't add record of person): ${error}`);
+          setTimeout(() => {
+            setMessageType(null);
+            setMessage(null);
+          }, 5000);
+        });
       setNewName("");
       setNewNumber("");
     }
@@ -65,9 +98,19 @@ const App = () => {
     if (window.confirm(`Are you sure you want to delete "${person.name}"?`)) {
       const personToDelete = persons.find(p => p.id === person.id);
 
-      personService.deletePerson(personToDelete).then(() => {
-        setPersons(persons.filter(p => p !== person));
-      });
+      personService
+        .deletePerson(personToDelete)
+        .then(() => {
+          setPersons(persons.filter(p => p !== person));
+        })
+        .catch(error => {
+          setMessageType("error");
+          setMessage(`Error (couldn't delete record of person): ${error}`);
+          setTimeout(() => {
+            setMessageType(null);
+            setMessage(null);
+          }, 5000);
+        });
     }
   };
 
@@ -101,7 +144,7 @@ const App = () => {
   return (
     <div>
       <h1>PhoneBook</h1>
-      <Notification message={successMessage} />
+      <Notification message={message} messageType={messageType} />
       <Filter value={newSearch} onChange={handleSearchChange} />
       <br />
       <PersonForm
