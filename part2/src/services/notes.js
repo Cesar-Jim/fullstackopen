@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/notes";
+const baseUrl = "https://polar-earth-75450.herokuapp.com/notes";
 
 // The following functions return the promises returned by the axios methods:
 
