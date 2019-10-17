@@ -83,7 +83,7 @@ const App = () => {
         })
         .catch(error => {
           setMessageType("error");
-          setMessage(`Error (couldn't add record of person): ${error}`);
+          setMessage(`${JSON.stringify(error.response.data.error)}`);
           setTimeout(() => {
             setMessageType(null);
             setMessage(null);
